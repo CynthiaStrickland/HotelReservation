@@ -198,14 +198,6 @@
 				3D7D719D1C0CD7400090A82C /* Room.h */,
 				3D7D719E1C0CD7400090A82C /* Room.m */,
 				3D7D71A71C0CD7AE0090A82C /* Entities */,
-				3D7D718F1C0CD7400090A82C /* Hotel+CoreDataProperties.h */,
-				3D7D71901C0CD7400090A82C /* Hotel+CoreDataProperties.m */,
-				3D7D71931C0CD7400090A82C /* Reservation+CoreDataProperties.h */,
-				3D7D71941C0CD7400090A82C /* Reservation+CoreDataProperties.m */,
-				3D7D71971C0CD7400090A82C /* Guest+CoreDataProperties.h */,
-				3D7D71981C0CD7400090A82C /* Guest+CoreDataProperties.m */,
-				3D7D719B1C0CD7400090A82C /* Room+CoreDataProperties.h */,
-				3D7D719C1C0CD7400090A82C /* Room+CoreDataProperties.m */,
 			);
 			name = Models;
 			path = HotelReservation;
@@ -245,6 +237,14 @@
 		3D7D71A71C0CD7AE0090A82C /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				3D7D718F1C0CD7400090A82C /* Hotel+CoreDataProperties.h */,
+				3D7D71901C0CD7400090A82C /* Hotel+CoreDataProperties.m */,
+				3D7D71931C0CD7400090A82C /* Reservation+CoreDataProperties.h */,
+				3D7D71941C0CD7400090A82C /* Reservation+CoreDataProperties.m */,
+				3D7D71971C0CD7400090A82C /* Guest+CoreDataProperties.h */,
+				3D7D71981C0CD7400090A82C /* Guest+CoreDataProperties.m */,
+				3D7D719B1C0CD7400090A82C /* Room+CoreDataProperties.h */,
+				3D7D719C1C0CD7400090A82C /* Room+CoreDataProperties.m */,
 			);
 			name = Entities;
 			sourceTree = "<group>";

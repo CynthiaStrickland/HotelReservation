@@ -14,7 +14,7 @@
 
 @interface AppDelegate ()
 
-@property (strong, nonatomic)
+@property (strong, nonatomic) UINavigationController *navigationController;
 @property(strong, nonatomic) ViewController *viewController;
 
 @end
@@ -28,18 +28,22 @@
     return YES;
     
 }
+    //If there is no data in our database it is going to go to the JSON and get data from there
 
 - (void)bootStrapApp {
-    NSFetchRequest *request = [NSFetchRequest fetchRequesteWithEntityName:@"Hotel"];
     
+        //Gives array of object.  Tells you if anything is there
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Hotel"];
     NSError *error;
-    NSInteger *count = [self.managedObjectContext countForFetchRequest:request error:&error];
+    NSInteger count = [self.managedObjectContext countForFetchRequest:request error:&error];
     
     if (count == 0) {
         NSDictionary *hotels = [NSDictionary new];
         NSDictionary *rooms = [NSDictionary new];
         
+            //Get JSON PATH
         NSString *jsonPath = [[NSBundle mainBundle]pathForResource:@"hotels" ofType:@"json"];
+            //Create DATA out of this
         NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
         
         NSError *jsonError;
@@ -67,9 +71,11 @@
 }
 
 - (void)setupRootViewController {
-    self.window = [[UIWindow alloc]initWithFrame: [[UIScreen mainScreen]bounds]];
-    self.viewController = [[ViewController alloc]init];
+    self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];   //initialize window
+    self.viewController = [[ViewController alloc]init];    // create an instance of window
     self.navigationController = [[UINavigationController alloc]initWithRootViewController:self.viewController];
+    
+    self.viewController.view.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = self.navigationController
     [self.window makeKeyAndVisible];
 }
