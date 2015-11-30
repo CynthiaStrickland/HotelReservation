@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
+#import "Hotel.h"
 
 @interface HotelsViewController : UIViewController
 

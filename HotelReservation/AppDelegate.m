@@ -7,8 +7,15 @@
 //
 
 #import "AppDelegate.h"
+#import "hotel.h"
+#import "Room.h"
+#import "Reservation.h"
+#import "Guest.h"
 
 @interface AppDelegate ()
+
+@property (strong, nonatomic)
+@property(strong, nonatomic) ViewController *viewController;
 
 @end
 
@@ -16,8 +23,55 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [self setupRootViewController];
+    [self bootStrapApp];
     return YES;
+    
+}
+
+- (void)bootStrapApp {
+    NSFetchRequest *request = [NSFetchRequest fetchRequesteWithEntityName:@"Hotel"];
+    
+    NSError *error;
+    NSInteger *count = [self.managedObjectContext countForFetchRequest:request error:&error];
+    
+    if (count == 0) {
+        NSDictionary *hotels = [NSDictionary new];
+        NSDictionary *rooms = [NSDictionary new];
+        
+        NSString *jsonPath = [[NSBundle mainBundle]pathForResource:@"hotels" ofType:@"json"];
+        NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
+        
+        NSError *jsonError;
+        NSDictionary *rootObject = [NSJSONSerialization JSONObjectWithData:0 options:0 error:&jsonError];
+        
+        if (jsonError) {
+            NSLog(@"Error serializing JSON.");
+            return; }
+        
+        hotels = rootObject[@"Hotels"];
+        for (NSDictionary *newHotel in hotels) {
+            Hotel *newHotel = [NSEntityDescription insertNewObjectForEntityForName:@"Hotel" inManagedObjectContext:self.managedObjectContext];
+            newHotel.name = [hotels[@"name"];
+            newHotel.location = [hotels[@"location"];
+            newHotel.stars = hotels[@"stars"];
+                                                  
+            rooms = hotel[@"rooms"];
+                                
+            newRoom.number = [rooms[@"number"];
+            newRoom.beds = [rooms[@"beds"];
+            newRoom.rate = rooms[@"rate"];
+            newRoom.hotel = rooms[@"hotel"];
+        }
+    }
+}
+
+- (void)setupRootViewController {
+    self.window = [[UIWindow alloc]initWithFrame: [[UIScreen mainScreen]bounds]];
+    self.viewController = [[ViewController alloc]init];
+    self.navigationController = [[UINavigationController alloc]initWithRootViewController:self.viewController];
+    self.window.rootViewController = self.navigationController
+    [self.window makeKeyAndVisible];
 }
 
 #pragma mark - Core Data stack

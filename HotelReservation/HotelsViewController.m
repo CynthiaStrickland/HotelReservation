@@ -11,13 +11,26 @@
 @interface HotelsViewController () <UITableViewDataSource, UITextFieldDelegate>
 
 @property (strong,nonatomic) UITableView *tableView;
-
-@property (strong,nonatomic) NSArray *hotels;
+@property (strong,nonatomic) NSArray *dataSource;
 
 @end
 
 @implementation HotelsViewController
 
+- (NSArray *)dataSource {
+    if (!_dataSource) {
+        AppDelegate * delegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+        NSManagedObjectContext *context = delegate.managedObjectContext;
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Hotel"];
+        NSError *fetchError;
+        _dataSource = [context executeFetchRequest:request error:fetchError];
+        
+        if (fetchError) {
+            NSLog(@"Error fetching from Core Data");
+        }
+        
+    }
+}
 -(void)loadView {
     UIView *rootView = [[UIView alloc] init];
     
@@ -39,7 +52,7 @@
 #pragma mark - TABLEVIEW
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.hotels.count;
+    return self.dataSource.count;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
