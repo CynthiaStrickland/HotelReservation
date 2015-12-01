@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "DatePickerViewController.h"
+#import "RoomsViewController.h"
 
 @interface ViewController ()
 
@@ -23,22 +25,22 @@
     
     float navigationBarHeight = CGRectGetHeight(self.navigationController.navigationBar.frame);
     
-        //Create three buttons
+            //INITIALIZE THREE BUTTONS
     UIButton *browseButton = [[UIButton alloc] init];
     UIButton *bookButton = [[UIButton alloc] init];
     UIButton *lookupButton = [[UIButton alloc] init];
     
-        //Set Button Titles
+            //SET BUTTON TITLES
     [browseButton setTitle:@"Browse" forState:UIControlStateNormal];
     [bookButton setTitle:@"Book" forState:UIControlStateNormal];
     [lookupButton setTitle:@"Lookup" forState:UIControlStateNormal];
     
-        //Set Button Background Colors
+            //SET BUTTON BACKGROUND COLORS
     [browseButton setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:0.75 alpha:1.0]];
     [bookButton setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:0.75 alpha:1.0]];
     [lookupButton setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:0.75 alpha:1.0]];
 
-        //Set Button Title Colors
+            //SET BUTTON TITLE COLORS
     [browseButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [bookButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [lookupButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -47,21 +49,21 @@
     [bookButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [lookupButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-            //Browse
+            //BROWSE BUTTON CONSTRAINTS
     NSLayoutConstraint *browseButtonLeading = [NSLayoutConstraint constraintWithItem:browseButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view  attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
     
     NSLayoutConstraint *browseButtonTrailing = [NSLayoutConstraint constraintWithItem:browseButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view  attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
     
     NSLayoutConstraint *browseButtonTop = [NSLayoutConstraint constraintWithItem:browseButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:64.0];
     
-            //Book
+            //BOOK BUTTON CONSTRAINTS
     NSLayoutConstraint *bookButtonLeading = [NSLayoutConstraint constraintWithItem:browseButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view  attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
     
     NSLayoutConstraint *bookButtonCenterY = [NSLayoutConstraint constraintWithItem:bookButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:navigationBarHeight / 1.4];
     
     NSLayoutConstraint *bookButtonTrailing = [NSLayoutConstraint constraintWithItem:browseButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
     
-            //Lookup
+            //LOOKUP BUTTON CONSTRAINTS
     NSLayoutConstraint *lookupButtonLeading = [NSLayoutConstraint constraintWithItem:lookupButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view  attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
     
     NSLayoutConstraint *lookupButtonTrailing = [NSLayoutConstraint constraintWithItem:lookupButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view  attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
@@ -100,6 +102,21 @@
     [bookButton addTarget:self action:@selector(bookButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     [lookupButton addTarget:self action:@selector(lookupButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
 }
+        //SELECTORS FOR BUTTONS
+
+- (void)browseButtonSelected:(UIButton *)sender {
+    HotelsViewController *hotelsViewController = [[HotelsViewController alloc]init];
+    [self.navigationController pushViewController:hotelsViewController animated:YES];
+}
+
+- (void)bookButtonSelected:(UIButton *)sender {
+    DatePickerViewController *datePickerViewController = [[DatePickerViewController alloc]init];
+    [self.navigationController pushViewController:datePickerViewController animated:YES];
+}
+- (void)lookupButtonSelected:(UIButton *)sender {
+    RoomsViewController *roomsViewController = [[RoomsViewController alloc]init];
+    [self.navigationController pushViewController:roomsViewController animated:YES];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -113,18 +130,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-}
-
-- (void)browseButtonSelected {
-    
-}
-
-- (void)bookButtonSelected {
-    
-}
-
-- (void)lookupButtonSelected {
-    
 }
 
 @end
