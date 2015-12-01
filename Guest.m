@@ -11,6 +11,5 @@
 
 @implementation Guest
 
-// Insert code here to add functionality to your managed object subclass
 
 @end

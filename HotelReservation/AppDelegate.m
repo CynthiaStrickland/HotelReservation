@@ -7,7 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "hotel.h"
+#import "ViewController.h"
+#import "Hotel.h"
 #import "Room.h"
 #import "Reservation.h"
 #import "Guest.h"
@@ -45,28 +46,41 @@
         NSString *jsonPath = [[NSBundle mainBundle]pathForResource:@"hotels" ofType:@"json"];
             //Create DATA out of this
         NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
-        
+            //Serialize
         NSError *jsonError;
-        NSDictionary *rootObject = [NSJSONSerialization JSONObjectWithData:0 options:0 error:&jsonError];
+        NSDictionary *rootObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&jsonError];
         
         if (jsonError) {
             NSLog(@"Error serializing JSON.");
-            return; }
+            return;
+        }
         
-        hotels = rootObject[@"Hotels"];
+        hotels = rootObject[@"Hotels"];    //Grab dictionary
         for (NSDictionary *newHotel in hotels) {
             Hotel *newHotel = [NSEntityDescription insertNewObjectForEntityForName:@"Hotel" inManagedObjectContext:self.managedObjectContext];
-            newHotel.name = [hotels[@"name"];
-            newHotel.location = [hotels[@"location"];
+            newHotel.name = hotels[@"name"];
+            newHotel.location = hotels[@"location"];
             newHotel.stars = hotels[@"stars"];
                                                   
-            rooms = hotel[@"rooms"];
-                                
-            newRoom.number = [rooms[@"number"];
-            newRoom.beds = [rooms[@"beds"];
+        rooms = hotel[@"rooms"];
+        for (NSDictionary *newRoom in rooms) {
+            
+            Room *newRoom = [NSEntityDescription insertNewObjectForEntityForName:@"Room" inManagedObjectContext:self.managedObjectContext];
+            newRoom.roomNumber = rooms[@"number"];
+            newRoom.beds = rooms[@"beds"];
             newRoom.rate = rooms[@"rate"];
-            newRoom.hotel = rooms[@"hotel"];
+            newRoom.hotel = newHotel;
+            }
         }
+                                     
+         NSError *saveError;
+         BOOL isSaved = [self.managedObjectContext save:&saveError];
+                                     
+         if (!isSaved) {
+             NSLog(@"Saved successfully");
+         } else {
+             NSLog(@"%@", saveError, localizedDescription);
+         }
     }
 }
 

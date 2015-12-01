@@ -13,7 +13,7 @@
 
 @implementation Hotel (CoreDataProperties)
 
-@dynamic hotelName;
+@dynamic name;
 @dynamic stars;
 @dynamic location;
 @dynamic rooms;
