@@ -1,21 +1,52 @@
 //
-//  RoomsViewController.m
-//  HotelReservation
+//  AvailabilityViewController.h
+//  HotelManager
 //
 //  Created by Cynthia Whitlatch on 11/30/15.
 //  Copyright © 2015 Cynthia Whitlatch. All rights reserved.
 //
 
-#import "RoomsViewController.h"
+#import "AvailabilityViewController.h"
+#import "AppDelegate.h"
+#import "Reservation.h"
 #import "Room.h"
+#import "Hotel.h"
+#import "BookViewController.h"
 
-@interface RoomsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface AvailabilityViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) NSArray *datasource;
 
 @end
 
-@implementation RoomsViewController
+@implementation AvailabilityViewController
+
+- (NSArray *)datasource {
+    if (!_datasource) {
+        
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+        
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Reservation"];
+        request.predicate = [NSPredicate predicateWithFormat:@"startDate <= %@ AND endDate >= %@", self.endDate, [NSDate date]];
+        
+        NSArray *results = [delegate.managedObjectContext executeFetchRequest:request error:nil];
+        NSMutableArray *unavailableRooms = [[NSMutableArray alloc]init];
+        
+        for (Reservation *reservation in results) {
+            [unavailableRooms addObject:reservation.room];
+        }
+        
+        NSFetchRequest *checkRequest = [NSFetchRequest fetchRequestWithEntityName:@"Room"];
+        checkRequest.predicate = [NSPredicate predicateWithFormat:@"NOT self IN %@", unavailableRooms];
+        
+        _datasource = [delegate.managedObjectContext executeFetchRequest:checkRequest error:nil];
+        
+        return _datasource;
+    }
+    
+    return _datasource;
+}
 
 - (void)loadView {
     [super loadView];
@@ -24,7 +55,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupRoomsViewController];
+    [self setupAvailabilityViewController];
     [self setupTableView];
 }
 
@@ -32,7 +63,7 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)setupRoomsViewController {
+- (void)setupAvailabilityViewController {
     [self setTitle:@"Rooms"];
 }
 
@@ -59,7 +90,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.hotel.rooms count];
+    return [self.datasource count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -69,7 +100,7 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    Room *room = (Room *)[self.hotel.rooms allObjects][indexPath.row];
+    Room *room = self.datasource[indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"Room: %i (%i beds, $%0.2f per night)", room.roomNumber.intValue, room.beds.intValue, room.rate.floatValue];
     
     return cell;
@@ -77,12 +108,22 @@
 
 #pragma mark - UITableViewDelegate
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Room *room = self.datasource[indexPath.row];
+    
+    BookViewController *bookViewController = [[BookViewController alloc]init];
+    bookViewController.room = room;
+    bookViewController.endDate = self.endDate;
+    
+    [self.navigationController pushViewController:bookViewController animated:YES];
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return  150.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIImage *headerImage = [UIImage imageNamed:@"room"];
+    UIImage *headerImage = [UIImage imageNamed:@"hotel"];
     UIImageView *imageView = [[UIImageView alloc]initWithImage:headerImage];
     
     imageView.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(self.view.frame), 150.0);
