@@ -25,72 +25,77 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setupRootViewController];
-    [self bootStrapApp];
+    [self bootstrapApp];
     return YES;
     
 }
     //If there is no data in our database it is going to go to the JSON and get data from there
 
-- (void)bootStrapApp {
+- (void)bootstrapApp {
     
-        //Gives array of object.  Tells you if anything is there
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Hotel"];
+    
     NSError *error;
     NSInteger count = [self.managedObjectContext countForFetchRequest:request error:&error];
     
     if (count == 0) {
+        
         NSDictionary *hotels = [NSDictionary new];
         NSDictionary *rooms = [NSDictionary new];
         
-            //Get JSON PATH
         NSString *jsonPath = [[NSBundle mainBundle]pathForResource:@"hotels" ofType:@"json"];
-            //Create DATA out of this
         NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
-            //Serialize
+        
         NSError *jsonError;
         NSDictionary *rootObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&jsonError];
         
-        if (jsonError) {
-            NSLog(@"Error serializing JSON.");
-            return;
+        if (jsonError) { NSLog(@"Error serializing JSON."); return; }
+        
+        hotels = rootObject[@"Hotels"];
+        
+        for (NSDictionary *hotel in hotels) {
+            
+            Hotel *newHotel = [NSEntityDescription insertNewObjectForEntityForName:@"Hotel" inManagedObjectContext:self.managedObjectContext];
+            newHotel.name = hotel[@"name"];
+            newHotel.location = hotel[@"location"];
+            newHotel.stars = hotel[@"stars"];
+            
+            rooms = hotel[@"rooms"];
+            
+            for (NSDictionary *room in rooms) {
+                
+                Room *newRoom = [NSEntityDescription insertNewObjectForEntityForName:@"Room" inManagedObjectContext:self.managedObjectContext];
+                
+                newRoom.roomNumber = room[@"number"];
+                newRoom.beds = room[@"beds"];
+                newRoom.rate = room[@"rate"];
+                newRoom.hotel = newHotel;
+                
+            }
+            
         }
         
-        hotels = rootObject[@"Hotels"];    //Grab dictionary
-        for (NSDictionary *newHotel in hotels) {
-            Hotel *newHotel = [NSEntityDescription insertNewObjectForEntityForName:@"Hotel" inManagedObjectContext:self.managedObjectContext];
-            newHotel.name = hotels[@"name"];
-            newHotel.location = hotels[@"location"];
-            newHotel.stars = hotels[@"stars"];
-                                                  
-        rooms = hotel[@"rooms"];
-        for (NSDictionary *newRoom in rooms) {
-            
-            Room *newRoom = [NSEntityDescription insertNewObjectForEntityForName:@"Room" inManagedObjectContext:self.managedObjectContext];
-            newRoom.roomNumber = rooms[@"number"];
-            newRoom.beds = rooms[@"beds"];
-            newRoom.rate = rooms[@"rate"];
-            newRoom.hotel = newHotel;
-            }
+        NSError *saveError;
+        BOOL isSaved = [self.managedObjectContext save:&saveError];
+        
+        if (isSaved) {
+            NSLog(@"Saved successfully.");
+        } else {
+            NSLog(@"%@", saveError.localizedDescription);
         }
-                                     
-         NSError *saveError;
-         BOOL isSaved = [self.managedObjectContext save:&saveError];
-                                     
-         if (!isSaved) {
-             NSLog(@"Saved successfully");
-         } else {
-             NSLog(@"%@", saveError, localizedDescription);
-         }
+        
     }
+    
 }
 
 - (void)setupRootViewController {
-    self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];   //initialize window
-    self.viewController = [[ViewController alloc]init];    // create an instance of window
+    self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+    self.viewController = [[ViewController alloc]init];
     self.navigationController = [[UINavigationController alloc]initWithRootViewController:self.viewController];
     
     self.viewController.view.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = self.navigationController
+    self.window.rootViewController = self.navigationController;
+    
     [self.window makeKeyAndVisible];
 }
 

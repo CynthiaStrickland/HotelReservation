@@ -7,8 +7,10 @@
 //
 
 #import "HotelsViewController.h"
+#import "AppDelegate.h"
+#import "Hotel.h"
 
-@interface HotelsViewController () <UITableViewDataSource, UITextFieldDelegate>
+@interface HotelsViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 @property (strong,nonatomic) UITableView *tableView;
 @property (strong,nonatomic) NSArray *dataSource;
@@ -19,19 +21,27 @@
 
 - (NSArray *)dataSource {
     if (!_dataSource) {
+        
         AppDelegate * delegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
         NSManagedObjectContext *context = delegate.managedObjectContext;
+        
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Hotel"];
+        
         NSError *fetchError;
-        _dataSource = [context executeFetchRequest:request error:fetchError];
+        _dataSource = [context executeFetchRequest:request error:&fetchError];
         
         if (fetchError) {
             NSLog(@"Error fetching from Core Data");
+            }
         }
-        
+    return _dataSource;
     }
-}
--(void)loadView {
+
+- (void)loadView {
+    [super loadView];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+                                   
+                                   
     UIView *rootView = [[UIView alloc] init];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:rootView.frame style:UITableViewStylePlain];
@@ -47,28 +57,49 @@
     [rootView addConstraints:tableViewHorizontalConstraints];
     
     self.view = rootView;
+
 }
 
 - (void)viewDidLoad {
-    
+    [super viewDidLoad];
+    [self setupHotelsViewController];
+    [self setupTableView];
+}
+
+- (void)setupHotelsViewController {
+    [self setTitle:@"Hotels"];
 }
 
 - (void)setupTableView {
     self.tableView = [[UITableView alloc]init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view addSubview:self.tableView];
-    [self.tableView registerClass:<#(nullable Class)#> forCellReuseIdentifier:<#(nonnull NSString *)#>]
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    
+    NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
+    
+    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+    
+    NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
+
+    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+    
+    leading.active = YES;
+    top.active = YES;
+    trailing.active = YES;
+    bottom.active = YES;
 }
 
-#pragma mark - TABLEVIEW
+#pragma mark - TABLEVIEW DATASOURCE
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataSource.count;
 }
 
-- (void)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
@@ -79,16 +110,8 @@
     
     Hotel *hotel = self.dataSource[indexPath.row];
     cell.textLabel.text = hotel.name;
+    
     return cell;
-    
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    Hotel *hotel = self.dataSource[indexPath.row];
-    RoomsViewController *roomsViewController = [[roomsViewController alloc]init];
-    roomsViewController.hotel = hotel;
-    [self.navigationController pushViewController:roomsViewController animated:Yes];
     
 }
 
