@@ -41,10 +41,8 @@
 - (void)loadView {
     [super loadView];
     [self.view setBackgroundColor:[UIColor whiteColor]];
-                                   
-                                   
-    UIView *rootView = [[UIView alloc] init];
-    
+
+    UIView *rootView = [[UIView alloc] init];    
     UITableView *tableView = [[UITableView alloc] initWithFrame:rootView.frame style:UITableViewStylePlain];
     self.tableView = tableView;
     [tableView setTranslatesAutoresizingMaskIntoConstraints:false];
@@ -58,7 +56,6 @@
     [rootView addConstraints:tableViewHorizontalConstraints];
     
     self.view = rootView;
-
 }
 
 - (void)viewDidLoad {
@@ -103,14 +100,11 @@
     
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-        
     }
     
     Hotel *hotel = self.dataSource[indexPath.row];
     cell.textLabel.text = hotel.name;
-    
     return cell;
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -118,7 +112,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIImage *headerImage = [UIImage imageNamed:@" "];
+    UIImage *headerImage = [UIImage imageNamed:@"hotel"];
     UIImageView *imageView = [[UIImageView alloc]initWithImage:headerImage];
     imageView.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(self.view.frame), 150.0);
     

@@ -7,16 +7,21 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "AppDelegate.h"
+#import "NSObject+NSManagedObjectContext_Category.h"
 
 @interface HotelReservationTests : XCTestCase
 
+@property (strong, nonatomic) NSManagedObjectContext *context;
 @end
 
 @implementation HotelReservationTests
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    [self setContext:[NSManagedObjectContext managerContext]];
+
 }
 
 - (void)tearDown {
@@ -24,16 +29,14 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testContextCreation {
+    XCTAssertNotNil(self.context, @"Context should not be nil. Check category implementation.");
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testContextOnMainQ {
+    XCTAssertTrue(self.context.concurrencyType == NSMainQueueConcurrencyType, @"Context should be created on the main Q.  Why did you change it?");
 }
+
+- (void)test
 
 @end
