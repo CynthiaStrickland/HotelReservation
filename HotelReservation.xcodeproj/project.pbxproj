@@ -30,6 +30,9 @@
 		3D7D71A51C0CD7400090A82C /* Room+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D719C1C0CD7400090A82C /* Room+CoreDataProperties.m */; };
 		3D7D71A61C0CD7400090A82C /* Room.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D719E1C0CD7400090A82C /* Room.m */; };
 		3D7D71A91C0CD9FD0090A82C /* hotels.json in Resources */ = {isa = PBXBuildFile; fileRef = 3D7D71A81C0CD9FD0090A82C /* hotels.json */; };
+		3D7D71AC1C0E82C00090A82C /* room.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D7D71AA1C0E82C00090A82C /* room.png */; };
+		3D7D71AD1C0E82C00090A82C /* hotel.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D7D71AB1C0E82C00090A82C /* hotel.png */; };
+		3D7D71B01C0E82FA0090A82C /* NSObject+NSmanagedObjectContext_Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D71AF1C0E82FA0090A82C /* NSObject+NSmanagedObjectContext_Category.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +96,10 @@
 		3D7D719D1C0CD7400090A82C /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Room.h; path = ../Room.h; sourceTree = "<group>"; };
 		3D7D719E1C0CD7400090A82C /* Room.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Room.m; path = ../Room.m; sourceTree = "<group>"; };
 		3D7D71A81C0CD9FD0090A82C /* hotels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = hotels.json; sourceTree = "<group>"; };
+		3D7D71AA1C0E82C00090A82C /* room.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = room.png; sourceTree = "<group>"; };
+		3D7D71AB1C0E82C00090A82C /* hotel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hotel.png; sourceTree = "<group>"; };
+		3D7D71AE1C0E82FA0090A82C /* NSObject+NSmanagedObjectContext_Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSmanagedObjectContext_Category.h"; sourceTree = "<group>"; };
+		3D7D71AF1C0E82FA0090A82C /* NSObject+NSmanagedObjectContext_Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+NSmanagedObjectContext_Category.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +167,8 @@
 		3D7D71411C0CB9990090A82C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3D7D71AA1C0E82C00090A82C /* room.png */,
+				3D7D71AB1C0E82C00090A82C /* hotel.png */,
 				3D7D71421C0CB9990090A82C /* main.m */,
 				3D7D71551C0CB9990090A82C /* Info.plist */,
 				3D7D71501C0CB9990090A82C /* Assets.xcassets */,
@@ -206,6 +215,8 @@
 		3D7D717E1C0CBA880090A82C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3D7D71AE1C0E82FA0090A82C /* NSObject+NSmanagedObjectContext_Category.h */,
+				3D7D71AF1C0E82FA0090A82C /* NSObject+NSmanagedObjectContext_Category.m */,
 				3D7D71471C0CB9990090A82C /* ViewController.h */,
 				3D7D71481C0CB9990090A82C /* ViewController.m */,
 				3D7D717F1C0CBACD0090A82C /* GuestViewController.h */,
@@ -352,8 +363,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D7D71AD1C0E82C00090A82C /* hotel.png in Resources */,
 				3D7D71A91C0CD9FD0090A82C /* hotels.json in Resources */,
 				3D7D71511C0CB9990090A82C /* Assets.xcassets in Resources */,
+				3D7D71AC1C0E82C00090A82C /* room.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +399,7 @@
 				3D7D71431C0CB9990090A82C /* main.m in Sources */,
 				3D7D71811C0CBACD0090A82C /* GuestViewController.m in Sources */,
 				3D7D714F1C0CB9990090A82C /* HotelReservation.xcdatamodeld in Sources */,
+				3D7D71B01C0E82FA0090A82C /* NSObject+NSmanagedObjectContext_Category.m in Sources */,
 				3D7D71A21C0CD7400090A82C /* Reservation.m in Sources */,
 				3D7D71A31C0CD7400090A82C /* Guest+CoreDataProperties.m in Sources */,
 				3D7D71A11C0CD7400090A82C /* Reservation+CoreDataProperties.m in Sources */,
@@ -602,6 +616,7 @@
 				3D7D71701C0CB9990090A82C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3D7D71711C0CB9990090A82C /* Build configuration list for PBXNativeTarget "HotelReservationTests" */ = {
 			isa = XCConfigurationList;
@@ -610,6 +625,7 @@
 				3D7D71731C0CB9990090A82C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3D7D71741C0CB9990090A82C /* Build configuration list for PBXNativeTarget "HotelReservationUITests" */ = {
 			isa = XCConfigurationList;
@@ -618,6 +634,7 @@
 				3D7D71761C0CB9990090A82C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
