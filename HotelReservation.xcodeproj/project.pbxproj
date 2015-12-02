@@ -35,6 +35,7 @@
 		3D7D71B01C0E82FA0090A82C /* NSObject+NSmanagedObjectContext_Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D71AF1C0E82FA0090A82C /* NSObject+NSmanagedObjectContext_Category.m */; };
 		3D7D71B31C0E84060090A82C /* AvailabilityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D71B21C0E84060090A82C /* AvailabilityViewController.m */; };
 		3D7D71B61C0E842F0090A82C /* BookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D71B51C0E842F0090A82C /* BookViewController.m */; };
+		3D7D71B91C0F7C800090A82C /* LookUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D71B81C0F7C800090A82C /* LookUpViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,8 @@
 		3D7D71B21C0E84060090A82C /* AvailabilityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvailabilityViewController.m; sourceTree = "<group>"; };
 		3D7D71B41C0E842F0090A82C /* BookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookViewController.h; sourceTree = "<group>"; };
 		3D7D71B51C0E842F0090A82C /* BookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookViewController.m; sourceTree = "<group>"; };
+		3D7D71B71C0F7C800090A82C /* LookUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookUpViewController.h; sourceTree = "<group>"; };
+		3D7D71B81C0F7C800090A82C /* LookUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookUpViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +232,8 @@
 				3D7D71801C0CBACD0090A82C /* GuestViewController.m */,
 				3D7D71771C0CBA6B0090A82C /* HotelsViewController.h */,
 				3D7D71781C0CBA6B0090A82C /* HotelsViewController.m */,
+				3D7D71B71C0F7C800090A82C /* LookUpViewController.h */,
+				3D7D71B81C0F7C800090A82C /* LookUpViewController.m */,
 				3D7D717A1C0CBA770090A82C /* RoomsViewController.h */,
 				3D7D717B1C0CBA770090A82C /* RoomsViewController.m */,
 				3D7D71851C0CBB200090A82C /* DatePickerViewController.h */,
@@ -403,6 +408,7 @@
 			files = (
 				3D7D71A51C0CD7400090A82C /* Room+CoreDataProperties.m in Sources */,
 				3D7D71491C0CB9990090A82C /* ViewController.m in Sources */,
+				3D7D71B91C0F7C800090A82C /* LookUpViewController.m in Sources */,
 				3D7D71791C0CBA6B0090A82C /* HotelsViewController.m in Sources */,
 				3D7D71A41C0CD7400090A82C /* Guest.m in Sources */,
 				3D7D71B61C0E842F0090A82C /* BookViewController.m in Sources */,

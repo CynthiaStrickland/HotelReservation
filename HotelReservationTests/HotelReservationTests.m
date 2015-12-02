@@ -7,26 +7,24 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "AppDelegate.h"
 #import "NSObject+NSManagedObjectContext_Category.h"
 
 @interface HotelReservationTests : XCTestCase
 
 @property (strong, nonatomic) NSManagedObjectContext *context;
+
 @end
 
 @implementation HotelReservationTests
 
 - (void)setUp {
     [super setUp];
-
     [self setContext:[NSManagedObjectContext managerContext]];
-
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+    [self setContext:nil];
 }
 
 - (void)testContextCreation {
@@ -48,8 +46,6 @@
     XCTAssertNil(error, @"Error should be nil.");
     XCTAssertNotNil(result, @"Result array should NOT be nil.");
     XCTAssertTrue([count intValue] > 0, @"Number of objects in the database after seeing should be greater than 0.");
-    
-    
 }
 
 @end

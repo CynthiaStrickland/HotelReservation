@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "DatePickerViewController.h"
 #import "RoomsViewController.h"
+#import "LookUpViewController.h"
 
 @interface ViewController ()
 
@@ -102,7 +103,7 @@
 //    [self.navigationController pushViewController:datePickerViewController animated:YES];
 }
 - (void)lookupButtonSelected:(UIButton *)sender {
-    [self.navigationController pushViewController:[RoomsViewController new] animated:YES];
+    [self.navigationController pushViewController:[LookUpViewController new] animated:YES];
 
 //    RoomsViewController *roomsViewController = [[RoomsViewController alloc]init];
 //    [self.navigationController pushViewController:roomsViewController animated:YES];

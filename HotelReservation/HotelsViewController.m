@@ -8,17 +8,48 @@
 
 #import "HotelsViewController.h"
 #import "AppDelegate.h"
+#import "NSObject+NSManagedObjectContext_Category.h"
 #import "Hotel.h"
 #import "RoomsViewController.h"
 
 @interface HotelsViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
+
 @property (strong,nonatomic) UITableView *tableView;
 @property (strong,nonatomic) NSArray *dataSource;
+@property (strong,nonatomic) NSFetchedResultsController *fetchedResultsController;
+
 
 @end
 
 @implementation HotelsViewController
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    if (!_fetchedResultsController) {
+        
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Hotel"];
+        NSManagedObjectContext *context = [NSManagedObjectContext managerContext];
+        
+        request.sortDescriptors =@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+        
+        _fetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
+        
+        _fetchedResultsController.delegate = self;
+        
+        
+        NSError *error;
+        [_fetchedResultsController performFetch:&error];
+        
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        
+        } else {
+            NSLog(@"Successfully fetched ...");
+        }
+        
+    }
+    return _fetchedResultsController;
+}
 
 - (NSArray *)dataSource {
     if (!_dataSource) {
@@ -36,7 +67,7 @@
             }
         }
     return _dataSource;
-    }
+}
 
 - (void)loadView {
     [super loadView];
