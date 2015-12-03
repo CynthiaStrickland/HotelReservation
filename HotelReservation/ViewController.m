@@ -111,8 +111,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupViewController];
-    
+    [self setupViewController];    
 }
 
 - (void)setupViewController {

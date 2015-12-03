@@ -14,11 +14,9 @@
 
 @interface HotelsViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
-
 @property (strong,nonatomic) UITableView *tableView;
 @property (strong,nonatomic) NSArray *dataSource;
 @property (strong,nonatomic) NSFetchedResultsController *fetchedResultsController;
-
 
 @end
 
@@ -160,7 +158,14 @@
     roomsViewController.hotel = hotel;
     
     [self.navigationController pushViewController:roomsViewController animated:YES];
-    
 }
+
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    return YES;
+//    
+//}
+
+//- (void)tabl
 
 @end

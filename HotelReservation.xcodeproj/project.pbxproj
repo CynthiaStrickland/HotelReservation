@@ -36,6 +36,8 @@
 		3D7D71B31C0E84060090A82C /* AvailabilityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D71B21C0E84060090A82C /* AvailabilityViewController.m */; };
 		3D7D71B61C0E842F0090A82C /* BookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D71B51C0E842F0090A82C /* BookViewController.m */; };
 		3D7D71B91C0F7C800090A82C /* LookUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D71B81C0F7C800090A82C /* LookUpViewController.m */; };
+		3D7D71C21C10E06E0090A82C /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7D71C01C10E06E0090A82C /* Fabric.framework */; };
+		3D7D71C31C10E06E0090A82C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7D71C11C10E06E0090A82C /* Crashlytics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +111,9 @@
 		3D7D71B51C0E842F0090A82C /* BookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookViewController.m; sourceTree = "<group>"; };
 		3D7D71B71C0F7C800090A82C /* LookUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookUpViewController.h; sourceTree = "<group>"; };
 		3D7D71B81C0F7C800090A82C /* LookUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookUpViewController.m; sourceTree = "<group>"; };
+		3D7D71C01C10E06E0090A82C /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		3D7D71C11C10E06E0090A82C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		3D7D71C41C10EF600090A82C /* HotelReservation 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "HotelReservation 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,8 +122,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D7D718D1C0CBC020090A82C /* MapKit.framework in Frameworks */,
+				3D7D71C31C10E06E0090A82C /* Crashlytics.framework in Frameworks */,
 				3D7D718B1C0CBBFB0090A82C /* Social.framework in Frameworks */,
 				3D7D71891C0CBBF10090A82C /* CoreData.framework in Frameworks */,
+				3D7D71C21C10E06E0090A82C /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +259,8 @@
 		3D7D718E1C0CBCF90090A82C /* FRAMEWORKS */ = {
 			isa = PBXGroup;
 			children = (
+				3D7D71C01C10E06E0090A82C /* Fabric.framework */,
+				3D7D71C11C10E06E0090A82C /* Crashlytics.framework */,
 				3D7D718C1C0CBC020090A82C /* MapKit.framework */,
 				3D7D718A1C0CBBFB0090A82C /* Social.framework */,
 				3D7D71881C0CBBF10090A82C /* CoreData.framework */,
@@ -285,6 +294,7 @@
 				3D7D713A1C0CB9990090A82C /* Sources */,
 				3D7D713B1C0CB9990090A82C /* Frameworks */,
 				3D7D713C1C0CB9990090A82C /* Resources */,
+				3D7D71BF1C10E0350090A82C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -400,6 +410,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3D7D71BF1C10E0350090A82C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 1d837b18a5692e995e76548a45222fa5035c19d2 b670c174dc510313d5ebc291ed5addeea38340899223f2cdd2bf3cc714af0e57";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3D7D713A1C0CB9990090A82C /* Sources */ = {
@@ -547,6 +573,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HotelReservation",
+				);
 				INFOPLIST_FILE = HotelReservation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -559,6 +589,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HotelReservation",
+				);
 				INFOPLIST_FILE = HotelReservation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -660,9 +694,10 @@
 		3D7D714D1C0CB9990090A82C /* HotelReservation.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3D7D71C41C10EF600090A82C /* HotelReservation 2.xcdatamodel */,
 				3D7D714E1C0CB9990090A82C /* HotelReservation.xcdatamodel */,
 			);
-			currentVersion = 3D7D714E1C0CB9990090A82C /* HotelReservation.xcdatamodel */;
+			currentVersion = 3D7D71C41C10EF600090A82C /* HotelReservation 2.xcdatamodel */;
 			path = HotelReservation.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

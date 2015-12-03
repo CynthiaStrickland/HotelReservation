@@ -90,6 +90,13 @@
     return imageView;
 }
 
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
+}
+
+
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 //
 //    Hotel *hotel = self.dataSource[indexPath.row];

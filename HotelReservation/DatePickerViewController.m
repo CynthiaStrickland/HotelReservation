@@ -66,8 +66,7 @@
     
     availabilityViewController.endDate = endDate;
     
-    [self.navigationController pushViewController:availabilityViewController animated:YES];
-    
+    [self.navigationController pushViewController:availabilityViewController animated:YES];    
 }
 
 @end

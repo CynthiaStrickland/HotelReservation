@@ -12,6 +12,9 @@
 #import "Room.h"
 #import "Reservation.h"
 #import "Guest.h"
+@import CoreData;
+@import UIKit;
+
 
 @interface AppDelegate ()
 
@@ -24,8 +27,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Fabric with:@[[Crashlytics class]]];
+
     [self setupRootViewController];
-    [self bootstrapApp];
+//    [self bootstrapApp];
+    [self addImages];
+    
     return YES;
     
 }
@@ -69,10 +76,8 @@
                 newRoom.roomNumber = room[@"number"];
                 newRoom.beds = room[@"beds"];
                 newRoom.rate = room[@"rate"];
-                newRoom.hotel = newHotel;
-                
+                newRoom.hotel = newHotel;                
             }
-            
         }
         
         NSError *saveError;
@@ -83,9 +88,18 @@
         } else {
             NSLog(@"%@", saveError.localizedDescription);
         }
-        
     }
+}
+
+- (void)addImages {
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Hotel"];
+    NSArray *hotels = [self.managedObjectContext executeFetchRequest:request error:nil];
+    UIImage *image = [UIImage imageNamed:@"hotel"];
     
+    for (Hotel *hotel in hotels) {
+        hotel.image = UIImageJPEGRepresentation(image, 0.8);    //converting to data with compression of 0.8
+    }
+    [self.managedObjectContext save:nil];
 }
 
 - (void)setupRootViewController {
@@ -132,15 +146,19 @@
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"HotelReservation.sqlite"];
     NSError *error = nil;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    
+    //Enabling lightweight Migration
+    NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
+                              NSInferMappingModelAutomaticallyOption: @YES};
+    
+    
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:storeURL options:options error:&error]) {
         // Report any error we got.
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
         dict[NSLocalizedFailureReasonErrorKey] = failureReason;
         dict[NSUnderlyingErrorKey] = error;
         error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-        // Replace this with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
@@ -150,7 +168,6 @@
 
 
 - (NSManagedObjectContext *)managedObjectContext {
-    // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
     if (_managedObjectContext != nil) {
         return _managedObjectContext;
     }
@@ -171,8 +188,6 @@
     if (managedObjectContext != nil) {
         NSError *error = nil;
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
