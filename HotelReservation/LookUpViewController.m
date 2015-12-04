@@ -7,6 +7,12 @@
 //
 
 #import "LookUpViewController.h"
+#import "NSObject+NSmanagedObjectContext_Category.h"
+#import "AppDelegate.h"
+#import "Reservation.h"
+#import "Guest.h"
+#import "Room.h"
+#import "Hotel.h"
 
 @interface LookUpViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
@@ -17,10 +23,13 @@
 
 @implementation LookUpViewController
 
+            //Overriding the Setter for the DataSource - As soon as Datasource is set reload TableView
 - (void)setDataSource:(NSArray *)dataSource {
-    _dataSource =dataSource;
+    _dataSource = dataSource;
     
     [self.tableView reloadData];
+            //This reloads specific section of a TableView
+//    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:(UITableViewRowAnimationAutomatic];
 }
 
 - (void)setupTableView {
@@ -50,13 +59,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self setupTableView];
+    [self setupLookupViewController];
+}
+
+- (void)setupLookupViewController {
+    [self setTitle:@"Search"];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataSource.count;
@@ -70,41 +85,40 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-//    Hotel *hotel = self.dataSource[indexPath.row];
-//    cell.textLabel.text = hotel.name;
+    Reservation *reservation = self.dataSource[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"Name: %@, Hotel: %@" reservation.guest.firstName, reservation.room.hotel.name];
+    
     return cell;
 }
 
+#pragma mark - UITableViewDelegate
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 150.0;
+    return 44.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIImage *headerImage = [UIImage imageNamed:@"hotel"];
-    UIImageView *imageView = [[UIImageView alloc]initWithImage:headerImage];
-    imageView.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(self.view.frame), 150.0);
-    
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    imageView.clipsToBounds = YES;
-    
-    return imageView;
+    UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0.0, 0.0, CGRectGetWidth(self.view.frame), 44.0)];
+    searchBar.delegate = self;
+    return searchBar;
 }
 
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     
+    //Getting pointer to searchText, create a request for Reservation, set the Predicate to the name equal to the search text.  We are setting our DataSource to this result.   That is why we overrode the getter at the top of this class.
+    NSString *searchText = searchBar.text;
+    NSManagedObjectContext *context = [NSManagedObjectContext managerContext];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Reservation"];
+    request.predicate = [NSPredicate predicateWithFormat:@"guest.name == %@", searchText];
+
+    NSError *error;
+    NSArray *results = [context executeFetchRequest:request error:&error];
+    
+    if (!error) {
+        self.dataSource = results;
+    }
 }
-
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//
-//    Hotel *hotel = self.dataSource[indexPath.row];
-//    RoomsViewController *roomsViewController = [[RoomsViewController alloc]init];
-//    roomsViewController.hotel = hotel;
-//    
-//    [self.navigationController pushViewController:roomsViewController animated:YES];
-//    
-//}
 
 @end

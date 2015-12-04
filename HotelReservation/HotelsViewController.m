@@ -11,6 +11,8 @@
 #import "NSObject+NSManagedObjectContext_Category.h"
 #import "Hotel.h"
 #import "RoomsViewController.h"
+@import CoreData;
+@import Foundation;
 
 @interface HotelsViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
@@ -32,7 +34,7 @@
         
         _fetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
         
-        _fetchedResultsController.delegate = self;
+//        _fetchedResultsController.delegate = self;
         
         
         NSError *error;
@@ -168,4 +170,28 @@
 
 //- (void)tabl
 
+#pragma mark - FRCD
+
+-(void)controller(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:([indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    
+    UITableView *tableView = self.tableView;
+    
+    switch(type) {
+            
+        case NSFetchedResultsChangeInsert:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationFade];
+             break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationMiddle];
+            break:
+        
+        case NSFetchedResultsChangeUpdate: break;
+        
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
+                                                                                                     
 @end
