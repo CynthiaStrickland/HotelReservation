@@ -30,13 +30,13 @@
     [Fabric with:@[[Crashlytics class]]];
 
     [self setupRootViewController];
-//    [self bootstrapApp];
-    [self addImages];
+    [self bootstrapApp];
+    [self setupNotifications];
+//    [self addImages];
     
     return YES;
     
 }
-    //If there is no data in our database it is going to go to the JSON and get data from there
 
 - (void)bootstrapApp {
     
@@ -89,6 +89,17 @@
             NSLog(@"%@", saveError.localizedDescription);
         }
     }
+}
+
+- (void)setupNotifications {
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(persistentStoreDidImportUbiquitousContentChanges:) name:NSPersistentStoreDidImportUbiquitousContentChangesNotification object:nil];
+}
+
+- (void)persistentStoreDidImportUbiquitousContentChanges:(NSNotification *)notification {
+    NSLog(@"Merging ubiquitous content changes");
+    [self.managedObjectContext performBlock:^{
+        [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+    }];
 }
 
 - (void)addImages {

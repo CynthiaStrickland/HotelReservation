@@ -30,9 +30,9 @@
     UIButton *bookButton = [[UIButton alloc]init];
     UIButton *lookupButton = [[UIButton alloc]init];
     
-    [browseButton setTitle:@"Browse" forState:UIControlStateNormal];
-    [bookButton setTitle:@"Book" forState:UIControlStateNormal];
-    [lookupButton setTitle:@"Lookup" forState:UIControlStateNormal];
+    [browseButton setTitle:@"Browse Hotels" forState:UIControlStateNormal];
+    [bookButton setTitle:@"Book A Room" forState:UIControlStateNormal];
+    [lookupButton setTitle:@"Lookup A Reservation" forState:UIControlStateNormal];
     
     [browseButton setBackgroundColor:[UIColor colorWithRed:0.18 green:0.58 blue:0.94 alpha:1.0]];
     [bookButton setBackgroundColor:[UIColor colorWithRed:0.99 green:0.33 blue:0.69 alpha:1.0]];
