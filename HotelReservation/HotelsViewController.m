@@ -128,6 +128,15 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    Hotel *hotel = self.dataSource[indexPath.row];
+    RoomsViewController *roomsViewController = [[RoomsViewController alloc]init];
+    roomsViewController.hotel = hotel;
+
+    [self.navigationController pushViewController:roomsViewController animated:YES];
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
@@ -157,17 +166,6 @@
         imageView.clipsToBounds = YES;
     
         return imageView;
-    
-//    Hotel *hotel = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-//    UIImage *headerImage = [UIImage imageWithData:hotel.image];
-//    UIImageView *imageView = [[UIImageView alloc]initWithImage:headerImage];
-//    
-//    imageView.frame = CGRectMake(0.0, 0.0, CGRectGetWidth(self.view.frame), 150.0);
-//    
-//    imageView.contentMode = UIViewContentModeScaleAspectFill;
-//    imageView.clipsToBounds = YES;
-//    
-//    return imageView;
 }
 
 #pragma mark - FRCD
@@ -223,7 +221,6 @@
             break;
     }
 }
-
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView endUpdates];
