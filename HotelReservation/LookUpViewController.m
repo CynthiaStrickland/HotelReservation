@@ -111,7 +111,7 @@
     NSString *searchText = searchBar.text;
     NSManagedObjectContext *context = [NSManagedObjectContext managerContext];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Reservation"];
-    request.predicate = [NSPredicate predicateWithFormat:@"guest.name == %@", searchText];
+    request.predicate = [NSPredicate predicateWithFormat:@"guest.firstName == %@", searchText];
 
     NSError *error;
     NSArray *results = [context executeFetchRequest:request error:&error];
