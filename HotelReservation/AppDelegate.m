@@ -7,8 +7,16 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+#import "Hotel.h"
+#import "Room.h"
+#import "Reservation.h"
+#import "Guest.h"
 
 @interface AppDelegate ()
+
+@property (strong, nonatomic) UINavigationController *navigationController;
+@property(strong, nonatomic) ViewController *viewController;
 
 @end
 
@@ -16,32 +24,79 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [self setupRootViewController];
+    [self bootstrapApp];
     return YES;
+    
+}
+    //If there is no data in our database it is going to go to the JSON and get data from there
+
+- (void)bootstrapApp {
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Hotel"];
+    
+    NSError *error;
+    NSInteger count = [self.managedObjectContext countForFetchRequest:request error:&error];
+    
+    if (count == 0) {
+        
+        NSDictionary *hotels = [NSDictionary new];
+        NSDictionary *rooms = [NSDictionary new];
+        
+        NSString *jsonPath = [[NSBundle mainBundle]pathForResource:@"hotels" ofType:@"json"];
+        NSData *jsonData = [NSData dataWithContentsOfFile:jsonPath];
+        
+        NSError *jsonError;
+        NSDictionary *rootObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&jsonError];
+        
+        if (jsonError) { NSLog(@"Error serializing JSON."); return; }
+        
+        hotels = rootObject[@"Hotels"];
+        
+        for (NSDictionary *hotel in hotels) {
+            
+            Hotel *newHotel = [NSEntityDescription insertNewObjectForEntityForName:@"Hotel" inManagedObjectContext:self.managedObjectContext];
+            newHotel.name = hotel[@"name"];
+            newHotel.location = hotel[@"location"];
+            newHotel.stars = hotel[@"stars"];
+            
+            rooms = hotel[@"rooms"];
+            
+            for (NSDictionary *room in rooms) {
+                
+                Room *newRoom = [NSEntityDescription insertNewObjectForEntityForName:@"Room" inManagedObjectContext:self.managedObjectContext];
+                
+                newRoom.roomNumber = room[@"number"];
+                newRoom.beds = room[@"beds"];
+                newRoom.rate = room[@"rate"];
+                newRoom.hotel = newHotel;
+                
+            }
+            
+        }
+        
+        NSError *saveError;
+        BOOL isSaved = [self.managedObjectContext save:&saveError];
+        
+        if (isSaved) {
+            NSLog(@"Saved successfully.");
+        } else {
+            NSLog(@"%@", saveError.localizedDescription);
+        }
+        
+    }
+    
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    // Saves changes in the application's managed object context before the application terminates.
-    [self saveContext];
+- (void)setupRootViewController {
+    self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+    self.viewController = [[ViewController alloc]init];
+    self.navigationController = [[UINavigationController alloc]initWithRootViewController:self.viewController];
+    
+    self.viewController.view.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = self.navigationController;
+    
+    [self.window makeKeyAndVisible];
 }
 
 #pragma mark - Core Data stack
@@ -77,7 +132,7 @@
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"HotelReservation.sqlite"];
     NSError *error = nil;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:storeURL options:nil error:&error]) {
         // Report any error we got.
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";

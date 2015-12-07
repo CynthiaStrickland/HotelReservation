@@ -1,15 +1,15 @@
 //
-//  HotelsViewController.h
+//  Room.m
 //  HotelReservation
 //
 //  Created by Cynthia Whitlatch on 11/30/15.
 //  Copyright © 2015 Cynthia Whitlatch. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "AppDelegate.h"
-#import "Hotel.h"
+#import "Room.h"
 
-@interface HotelsViewController : UIViewController
+@implementation Room
+
+// Insert code here to add functionality to your managed object subclass
 
 @end
